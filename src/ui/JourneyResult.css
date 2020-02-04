@@ -1,0 +1,42 @@
+.JourneyResult {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  margin-bottom: 12px;
+  padding: 16px;
+}
+
+.JourneyResult-top {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.JourneyResult-time {
+  font-size: 20px;
+  flex-grow: 1;
+}
+
+.JourneyResult-prices {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 14px;
+}
+
+.JourneyResult-bottom {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 14px;
+}
+
+.JourneyResult-length {
+  flex-grow: 1;
+}
+
+.JourneyResult-info {
+  color: #ce0e2d;
+}

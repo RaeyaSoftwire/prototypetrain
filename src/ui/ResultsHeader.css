@@ -1,0 +1,15 @@
+.ResultsHeader {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 16px;
+}
+
+.ResultsHeader-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.ResultsHeader-subtitle {
+  font-size: 14px;
+}

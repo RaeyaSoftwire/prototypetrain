@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { Button, Form } from 'semantic-ui-react';
-import Results from 'screens/Results';
+import Results from './screens/Results';
 import TicketTypePicker from './pickers/TicketTypePicker';
 import StationPicker from './pickers/StationPicker';
 import JourneyTimePicker from './pickers/JourneyTimePicker';
@@ -124,7 +124,9 @@ export default class App extends React.Component {
   render() {    
     return (
       <div>
-        <Results />
+        <div id="App-mobileFrame">
+          <Results data={this.state.trains} />
+        </div>
         <h1>Search form</h1>
         <Form>
           <Form.Group>

@@ -53,12 +53,10 @@ const calculateFormValues = input => {
 }
 
 const calculateState = formValues => {
-  console.log(formValues);
   const newstate = {
     after: formValues.after,
     time: moment(formValues.date).clone().hours(formValues.hour).minutes(formValues.minute),
   };
-  console.log(newstate);
   return newstate;
 }
 

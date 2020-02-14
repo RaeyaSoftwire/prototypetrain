@@ -1,5 +1,4 @@
 import React from 'react';
-import TrainFaresTable from './TrainFaresTable';
 
 export default class TrainFares extends React.Component {
   render() {

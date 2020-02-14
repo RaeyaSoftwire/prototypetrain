@@ -1,0 +1,17 @@
+.StationPicker {
+  margin: 0 !important;
+}
+
+.StationPicker .search.selection {
+  height: 48px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.StationPicker .search {
+  height: 48px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

@@ -3,13 +3,50 @@ import React from 'react';
 import './Header.css';
 
 export default class Header extends React.Component {
+  getBackButton() {
+    const { noBack, onBackClick } = this.props;
+    
+    if (noBack) {
+      return <div className="Header-left Header-button" />
+    }
+    else {
+      return (
+        <button className="Header-left Header-button" onClick={onBackClick}>
+          Back
+        </button>
+      );
+    }
+  }
+
+  getCloseButton() {
+    const { hasClose, onCloseClick } = this.props;
+    
+    if (hasClose) {
+      return (
+        <button className="Header-right Header-button" onClick={onCloseClick}>
+          Close
+        </button>
+      );
+    }
+    else {
+      return <div className="Header-right Header-button" />
+    }
+  }
+
   render() {
-    const { title } = this.props;
+    const { title, noBack, onBackClick } = this.props;
 
     return (
-      <header className="Header">
-        {title}
-      </header>
+      <React.Fragment>
+        <header className="Header">
+          {this.getBackButton()}
+          <div className="Header-title">
+            {title}
+          </div>
+          {this.getCloseButton()}
+        </header>
+        <div className="Header-padder" />
+      </React.Fragment>
     )
   }
 }

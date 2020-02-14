@@ -1,0 +1,15 @@
+.Button {
+  background-color: #ce0e2d;
+  height: 48px;
+  border-radius: 24px;
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 0 24px;
+  min-width: 144px;
+}
+
+.Button.disabled {
+  background-color: #707070;
+}

@@ -1,5 +1,18 @@
+@font-face {
+  font-family: "GothamSSm";
+  font-weight: bold;
+  src: url("./fonts/GothamSSm-Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "GothamSSm";
+  font-weight: normal;
+  src: url("./fonts/GothamSSm-Book.otf") format("opentype");
+}
+
 #App-mobileFrame {
-  width: 375px;
-  height: 791px;
-  border: 4px solid grey;
+  font-family: "GothamSSm";
+  width: 100vw;
+  height: 100vh;
+  position: relative;
 }

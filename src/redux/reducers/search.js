@@ -3,7 +3,7 @@ import moment from 'moment';
 
 // qq Move this to update when we go to the search form
 
-const nextTime = moment().add(15, 'minutes').add(20, 'days');
+const nextTime = moment().add(20, 'minutes');
     
 // Round up to nearest 5 minutes
 const remainder = 5 - (nextTime.minutes() % 5);
@@ -11,7 +11,6 @@ nextTime.add(remainder, 'minutes').startOf('minute');
 
 const initialState = {
   searching: false,
-  trains: null,
   from: 3457,
   to: 4227,
   ticketType: 0,
@@ -23,15 +22,16 @@ const initialState = {
     time: nextTime.clone().add(1, 'day'),
     after: true,
   },
+  adults: 1,
+  children: 0,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_SEARCH_DATA: {
-      const change = action.payload;
       return {
         ...state,
-        ...change,
+        ...action.data,
       };
     }
     default:

@@ -1,17 +1,11 @@
 import { CHANGE_SCREEN } from '../actionTypes';
 
-const initialState = {
-  screen: 0,
-};
+const initialState = 0;
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_SCREEN: {
-      const screen = action.payload;
-      return {
-        ...state,
-        screen: screen,
-      };
+      return action.id;
     }
     default:
       return state;

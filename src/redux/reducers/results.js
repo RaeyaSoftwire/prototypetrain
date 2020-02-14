@@ -5,8 +5,7 @@ const initialState = {};
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_RESULTS: {
-      const results = action.payload;
-      return results;
+      return action.data;
     }
     default:
       return state;

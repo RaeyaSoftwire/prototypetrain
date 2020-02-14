@@ -1,10 +1,10 @@
-import { CHANGE_SEARCH_DATA, CHANGE_SCREEN, CHANGE_RESULTS } from './actionTypes';
+import { CHANGE_SEARCH_DATA, CHANGE_SCREEN, CHANGE_RESULTS, CHANGE_SELECTED_OUTBOUND_JOURNEY, CHANGE_SELECTED_OUTBOUND_TICKET, CHANGE_SELECTED_INBOUND_JOURNEY, CHANGE_SELECTED_INBOUND_TICKET } from './actionTypes';
 import axios from 'axios';
 import stations from '../data/stations';
 
 export const changeSearchData = change => ({
   type: CHANGE_SEARCH_DATA,
-  payload: change,
+  data: change,
 });
 
 const findTrains = getState => {
@@ -29,21 +29,21 @@ const findTrains = getState => {
     reth: searchParams.ticketType === 1 ? searchParams.inbound.time.format('kk') : null,
     retmi: searchParams.ticketType === 1 ? searchParams.inbound.time.format('mm') : null,
     retda: searchParams.ticketType === 1 ? (searchParams.inbound.after ? 'y' : 'n') : null,
-    nad: 1,
-    nch: 0,
+    nad: searchParams.adults,
+    nch: searchParams.children,
   };
 
   return axios.get(`${corsBypassUrl}${apiUrl}`, { params: queryParams });
 };
 
-export const changeScreen = screen => ({
+export const changeScreen = id => ({
   type: CHANGE_SCREEN,
-  payload: screen,
+  id: id,
 });
 
 export const changeResults = results => ({
   type: CHANGE_RESULTS,
-  payload: results,
+  data: results,
 });
 
 export const executeSearch = () => {
@@ -57,3 +57,23 @@ export const executeSearch = () => {
       });
   };
 };
+
+export const changeSelectedOutboundJourney = id => ({
+  type: CHANGE_SELECTED_OUTBOUND_JOURNEY,
+  id: id,
+});
+
+export const changeSelectedOutboundTicket = id => ({
+  type: CHANGE_SELECTED_OUTBOUND_TICKET,
+  id: id,
+});
+
+export const changeSelectedInboundJourney = id => ({
+  type: CHANGE_SELECTED_INBOUND_JOURNEY,
+  id: id,
+});
+
+export const changeSelectedInboundTicket = id => ({
+  type: CHANGE_SELECTED_INBOUND_TICKET,
+  id: id,
+});

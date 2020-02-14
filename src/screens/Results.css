@@ -5,6 +5,13 @@
   overflow: auto;
 }
 
+.Results-fakeContent {
+  width: 100%;
+}
+
+.Results-content-fullwidth {
+}
+
 .Results-content {
   padding: 16px;
 }

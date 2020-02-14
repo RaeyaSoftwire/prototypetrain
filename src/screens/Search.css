@@ -1,10 +1,14 @@
 .Search {
   width: 100%;
   height: 100%;
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   overflow: auto;
 }
 
 .Search-content {
   padding: 16px;
+}
+
+.Search-ticketType {
+  margin: 16px 0;
 }

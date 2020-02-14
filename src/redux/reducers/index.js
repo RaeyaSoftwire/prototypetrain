@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
-import screens from './screens';
+import screen from './screen';
 import search from './search';
+import selection from './selection';
 import results from './results';
 
 export default combineReducers({
   search: search, 
-  screens: screens,
+  screen: screen,
+  selection: selection,
   results: results,
 });

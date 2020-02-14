@@ -1,42 +1,77 @@
 .JourneyResult {
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
-  margin-bottom: 12px;
-  padding: 16px;
+  align-items: flex-start;
+  padding-bottom: 0;
 }
 
-.JourneyResult-top {
+.JourneyResult-horizontal {
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 }
 
-.JourneyResult-time {
-  font-size: 20px;
+.JourneyResult-badges {
+  padding-bottom: 16px;
+}
+
+.JourneyResult-badges > * {
+  margin-right: 8px;
+}
+
+.JourneyResult-details {
   flex-grow: 1;
+}
+
+.JourneyResult-logo {
+  margin-top: 12px;
+  width: 40px;
+}
+
+.JourneyResult-time {
+  font-size: 22px;
+  font-weight: bold;
 }
 
 .JourneyResult-prices {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  font-size: 14px;
+}
+
+.JourneyResult-prices-standard {
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.JourneyResult-prices-first {
+  padding-top: 8px;
+  font-size: 12px;
 }
 
 .JourneyResult-bottom {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
   align-items: center;
   font-size: 14px;
+  border-top: 1px solid #e7e7e7;
+  margin-top: 16px;
 }
 
 .JourneyResult-length {
   flex-grow: 1;
+  padding: 16px 0;
 }
 
 .JourneyResult-info {
+  padding: 16px 0;
   color: #ce0e2d;
+}
+
+.JourneyResult-priceLabel {
+  width: 100%;
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-bottom: 4px;
 }

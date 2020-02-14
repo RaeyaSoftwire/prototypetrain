@@ -1,15 +1,13 @@
 import React from 'react';
-import moment from 'moment';
+import Block from './Block';
+import Badge from './Badge';
+import { formatPrice } from '../utility/format';
+
+import logo from '../data/logo.svg';
 
 import './JourneyResult.css';
 
 export default class JourneyResult extends React.Component {
-  formatPrice(price) {
-    if (price) {
-      return `£${(price / 100).toFixed(0)}.${(price % 100).toFixed(0).padStart(2, '0')}`;
-    }
-  }
-
   getDurationString() {
     const { data } = this.props;
     const { departureTime, arrivalTime } = data;
@@ -26,35 +24,62 @@ export default class JourneyResult extends React.Component {
     }
   }
 
-  render() {
+  getChangesString() {
     const { data } = this.props;
 
-    // needs to show fastest or cheapest too
+    return data.changes === 0 ? 'Direct' : `${data.changes} changes`;
+  }
+
+  getBadges() {
+    const { data } = this.props;
+
+    if (data.isCheapest || data.isFastest || data.isDiscounted) {
+      return (
+        <div className="JourneyResult-horizontal JourneyResult-badges">
+          {data.isCheapest && <Badge cheapest text="Cheapest" />}
+          {data.isFastest && <Badge fastest text="Fastest" />}
+          {data.isDiscounted && <Badge discounted text="Discounted" />}
+        </div>
+      );
+    }
+
+    return null;
+  }
+
+  render() {
+    const { data, onClick, onJourneyInfoClick, priceLabel } = this.props;
 
     return (
-      <div className="JourneyResult">
-        <div className="JourneyResult-top">
-          <div className="JourneyResult-time">
-            {data.departureTime.format('kk:mm')} -> {data.arrivalTime.format('kk:mm')}
+      <Block className="JourneyResult" onClick={onClick}>
+        {this.getBadges()}
+        {priceLabel && <div className="JourneyResult-priceLabel">
+          {priceLabel}
+        </div>}
+        <div className="JourneyResult-horizontal">
+          <div className="JourneyResult-details">
+            <div className="JourneyResult-time">
+              {data.departureTime.format('HH:mm')} > {data.arrivalTime.format('HH:mm')}
+            </div>
+            <img src={logo} className="JourneyResult-logo" />
           </div>
           <div className="JourneyResult-prices">
             <div className="JourneyResult-prices-standard">
-              {this.formatPrice(data.standardPrice)}
+              {formatPrice(data.standardPrice)}
             </div>
             <div className="JourneyResult-prices-first">
-              1st {this.formatPrice(data.firstPrice)}
+              1st {formatPrice(data.firstPrice)}
             </div>
           </div>
         </div>
-        <div className="JourneyResult-bottom">
+        <div className="JourneyResult-horizontal JourneyResult-bottom">
           <div className="JourneyResult-length">
-            {this.getDurationString()}, Direct?
+            {this.getDurationString()}, {this.getChangesString()}
           </div>
-          <div className="JourneyResult-info">
+          <div className="JourneyResult-info" onClick={e => {onJourneyInfoClick(); e.stopPropagation()}}>
             Journey info
           </div>
         </div>
-      </div>
+      </Block>
     )
   }
 }

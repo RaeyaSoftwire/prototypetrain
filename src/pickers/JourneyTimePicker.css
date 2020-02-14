@@ -1,0 +1,16 @@
+.JourneyTimePicker {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 48px;
+}
+
+.JourneyTimePicker-after {
+}
+
+.JourneyTimePicker-day {
+}
+
+.JourneyTimePicker-time {
+}

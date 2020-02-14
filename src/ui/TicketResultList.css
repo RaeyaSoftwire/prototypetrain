@@ -1,0 +1,39 @@
+.TicketResultList {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.TicketResultList-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.TicketResultList-group > * {
+  margin-bottom: 16px;
+}
+
+.TicketResultList-dropdown {
+  width: 100%;
+}
+
+.TicketResultList-dropdown-control {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #ce0e2d;
+  font-size: 14px;
+  border-bottom: 1px solid #e7e7e7;
+  padding: 16px 0;
+  margin-bottom: 12px;
+}
+
+.TicketResultList-dropdown-title {
+  flex-grow: 1;
+}
+
+.rotated {
+  transform: rotate(180deg);
+}

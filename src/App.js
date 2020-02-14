@@ -1,13 +1,16 @@
 import React from 'react';
 import Results from './screens/Results';
 import Search from './screens/Search';
+import Review from './screens/Review';
+import Payment from './screens/Payment';
+import Confirmation from './screens/Confirmation';
 
 import './App.css';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
   return {
-    screen: state.screens.screen,
+    screen: state.screen,
   };
 }
 
@@ -19,8 +22,17 @@ class App extends React.Component {
       case 0:
         return <Search />;
       case 1:
+      case 2:
+      case 3:
+      case 4:
         return <Results />;
-      defult:
+      case 5:
+        return <Review />;
+      case 6:
+        return <Payment />;
+      case 7:
+        return <Confirmation />;
+      default:
         return <div>oh no</div>;
     };
   }

@@ -1,15 +1,18 @@
 .ResultsHeader {
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
-  padding: 16px;
+  background-color: #ce0e2d;
+  border-top: 1px solid #e77c8d;
+  padding: 12px 16px;
+  color: white;
 }
 
 .ResultsHeader-title {
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .ResultsHeader-subtitle {
-  font-size: 14px;
+  margin-top: 2px;
+  font-size: 12px;
 }

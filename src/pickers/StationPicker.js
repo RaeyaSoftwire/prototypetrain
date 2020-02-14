@@ -2,7 +2,9 @@ import React from 'react';
 import { Form } from 'semantic-ui-react';
 import stations from '../data/stations';
 
-const stationDropdownOptions = stations
+import './StationPicker.css';
+
+const options = stations
   .filter(station => station.name && station.crs)
   .map(station => ({
     key: station.id,
@@ -15,16 +17,20 @@ const stationDropdownOptions = stations
 const stationSearchFunction = (options, term) => {
   return options.filter(option => {
     const termLower = term.toLowerCase();
-    return option.name.toLowerCase().startsWith(termLower) || option.crs.toLowerCase().startsWith(termLower);
+    return option.name.toLowerCase().includes(termLower) || option.crs.toLowerCase().startsWith(termLower);
   });
 };
 
 export default class StationPicker extends React.Component {
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {    
     const { selected, onChange } = this.props;
 
     return (
-      <Form.Dropdown placeholder='Select a station' defaultValue={selected} search={stationSearchFunction} selection options={stationDropdownOptions} onChange={onChange} />
+      <Form.Dropdown className="StationPicker" placeholder='Select a station' defaultValue={selected} search={stationSearchFunction} selection options={options} onChange={onChange} />
     );
   }
 }

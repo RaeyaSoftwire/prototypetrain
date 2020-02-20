@@ -1,4 +1,5 @@
 import React from 'react';
+import BackIcon from '../data/icon/back';
 
 import './Header.css';
 
@@ -12,7 +13,7 @@ export default class Header extends React.Component {
     else {
       return (
         <button className="Header-left Header-button" onClick={onBackClick}>
-          Back
+          <BackIcon className="Header-button-icon" />
         </button>
       );
     }

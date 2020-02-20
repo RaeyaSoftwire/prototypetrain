@@ -4,6 +4,7 @@ import Search from './screens/Search';
 import Review from './screens/Review';
 import Payment from './screens/Payment';
 import Confirmation from './screens/Confirmation';
+import Menu from './screens/Menu';
 
 import './App.css';
 import { connect } from 'react-redux';
@@ -32,6 +33,8 @@ class App extends React.Component {
         return <Payment />;
       case 7:
         return <Confirmation />;
+      case 100:
+        return <Menu />;
       default:
         return <div>oh no</div>;
     };

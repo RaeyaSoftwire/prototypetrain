@@ -35,7 +35,6 @@ class Search extends React.Component {
     const { to, from, ticketType, outbound, inbound } = this.props;
 
     return to && from && outbound.time && (ticketType !== 1 || inbound.time);
-
   }
 
   render() {

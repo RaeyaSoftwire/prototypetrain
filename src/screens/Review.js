@@ -1,16 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Header from '../ui/Header';
-import Footer from '../ui/Footer';
-import Button from '../ui/Button';
 import { changeScreen } from '../redux/actions';
-import content from '../data/review.png';
+import userCases from '../data/userCases';
+import reviewFooter from '../data/review-footer.png';
+import { changeSelectedInboundTicket } from '../redux/actions';
 
 import './Review.css';
+import { getSelectedOutboundTicket } from '../utility/get';
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
+    usercase: userCases.find(uc => uc.id === state.usercase),
     results: state.results,
     selection: state.selection,
   };
@@ -19,19 +20,23 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     changeScreen: id => dispatch(changeScreen(id)),
+    selectInboundTicket: id => dispatch(changeSelectedInboundTicket(id)),
   };
 };
 
 class Review extends React.Component {
   getPreviousScreenId() {
-    const { results } = this.props;
+    const { results, selection } = this.props;
 
-    return results.ReturnJourney ? 4 : 2;
+    const hasSelectedReturn = getSelectedOutboundTicket(results, selection).isReturn;
+
+    return (!hasSelectedReturn && results.inbound) ? 4 : 2;
   }
 
   goToPreviousScreen() {
-    const { changeScreen } = this.props;
+    const { changeScreen, selectInboundTicket } = this.props;
 
+    selectInboundTicket(null);
     changeScreen(this.getPreviousScreenId());
   }
 
@@ -45,16 +50,15 @@ class Review extends React.Component {
     changeScreen(this.getNextScreenId());
   }
 
-
   render() {
+    const { usercase } = this.props;
+
     return (
       <div className="Review">
-        <Header title="Review" onBackClick={() => this.goToPreviousScreen()} />
-        <div className="Review-content">
-          <h2>Your selected journeys and tickets</h2>
-        </div>
-        <img src={content} className="Review-fakeContent" />
-        <Footer>
+        <Header title="Review your choice and options" onBackClick={() => this.goToPreviousScreen()} />
+        <img src={usercase.review} className="Review-fakeContent" />
+        <img src={reviewFooter} className="Review-fakeContent" onClick={() => this.goToNextScreen()} />
+        {/*<Footer>
           <div className="Review-footer">
             <div className="Review-footer-text">
               <div className="Review-footer-text-title">
@@ -66,7 +70,7 @@ class Review extends React.Component {
             </div>
             <Button onClick={() => this.goToNextScreen()} text="Go to payment" />
           </div>
-        </Footer>
+        </Footer>*/}
       </div>
     )
   }

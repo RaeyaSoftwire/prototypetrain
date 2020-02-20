@@ -1,4 +1,4 @@
-import { CHANGE_SEARCH_DATA, CHANGE_SCREEN, CHANGE_RESULTS, CHANGE_SELECTED_OUTBOUND_JOURNEY, CHANGE_SELECTED_OUTBOUND_TICKET, CHANGE_SELECTED_INBOUND_JOURNEY, CHANGE_SELECTED_INBOUND_TICKET } from './actionTypes';
+import { CHANGE_SEARCH_DATA, CHANGE_SCREEN, CHANGE_RESULTS, CHANGE_SELECTED_OUTBOUND_JOURNEY, CHANGE_SELECTED_OUTBOUND_TICKET, CHANGE_SELECTED_INBOUND_JOURNEY, CHANGE_SELECTED_INBOUND_TICKET, CHANGE_USER_CASE } from './actionTypes';
 import axios from 'axios';
 import stations from '../data/stations';
 
@@ -41,20 +41,77 @@ export const changeScreen = id => ({
   id: id,
 });
 
+export const changeUserCase = id => ({
+  type: CHANGE_USER_CASE,
+  id: id,
+});
+
 export const changeResults = results => ({
   type: CHANGE_RESULTS,
   data: results,
 });
 
-export const executeSearch = () => {
+export const executeSearch = (redirectScreen = 1) => {
   return (dispatch, getState) => {
     dispatch(changeSearchData({ searching: true }));
     return findTrains(getState)
       .then(results => {
         dispatch(changeResults(results.data));
         dispatch(changeSearchData({ searching: false }));
-        dispatch(changeScreen(1));
+        dispatch(changeScreen(redirectScreen));
       });
+  };
+};
+
+export const earlierOutboundServices = () => {
+  return (dispatch, getState) => {
+    const { results } = getState();
+    dispatch(changeSearchData({
+      outbound: {
+        time: results.outbound[0].time.arrival,
+        after: false,
+      },
+    }));
+    dispatch(executeSearch(1));
+  };
+};
+
+export const earlierInboundServices = () => {
+  return (dispatch, getState) => {
+    const { results } = getState();
+    dispatch(changeSearchData({
+      inbound: {
+        time: results.inbound[0].time.arrival,
+        after: false,
+      },
+    }));
+    dispatch(executeSearch(3));
+  };
+};
+
+export const laterOutboundServices = () => {
+  return (dispatch, getState) => {
+    const { results } = getState();
+    dispatch(changeSearchData({
+      outbound: {
+        time: results.outbound[results.outbound.length - 1].time.departure,
+        after: true,
+      },
+    }));
+    dispatch(executeSearch(1));
+  };
+};
+
+export const laterInboundServices = () => {
+  return (dispatch, getState) => {
+    const { results } = getState();
+    dispatch(changeSearchData({
+      inbound: {
+        time: results.inbound[results.inbound.length - 1].time.departure,
+        after: true,
+      },
+    }));
+    dispatch(executeSearch(3));
   };
 };
 

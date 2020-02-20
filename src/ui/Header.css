@@ -30,11 +30,16 @@
   font-size: 14px;
   border: none;
   padding: 0;
+  padding-left: 16px;
+}
+
+.Header-button-icon {
+  width: 20px;
+  fill: white;
 }
 
 .Header-left {
   justify-content: flex-start;
-  padding-left: 16px;
 }
 
 .Header-right {

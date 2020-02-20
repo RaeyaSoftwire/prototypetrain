@@ -23,8 +23,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: #ce0e2d;
   font-size: 14px;
+  font-weight: bold;
   border-bottom: 1px solid #e7e7e7;
   padding: 16px 0;
   margin-bottom: 12px;

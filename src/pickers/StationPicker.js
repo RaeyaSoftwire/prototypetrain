@@ -6,6 +6,7 @@ import './StationPicker.css';
 
 const options = stations
   .filter(station => station.name && station.crs)
+  .filter(station => station.name.toLowerCase().includes('london') || station.name === 'Leeds' || station.name === 'Harrogate' || station.name === 'York')
   .map(station => ({
     key: station.id,
     value: station.id,

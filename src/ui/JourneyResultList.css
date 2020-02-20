@@ -4,6 +4,6 @@
   align-items: flex-start;
 }
 
-.JourneyResultList > * {
-  margin-bottom: 16px;
+.JourneyResult + .JourneyResult {
+  margin-top: 16px;
 }

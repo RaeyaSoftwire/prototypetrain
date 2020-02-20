@@ -1,0 +1,27 @@
+.Menu {
+  width: 100%;
+  height: 100%;
+  background-color: #f5f5f5;
+  overflow: auto;
+}
+
+.Menu-list {
+  padding: 16px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Menu-list-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  padding: 16px;
+  background-color: white;
+}
+
+.Menu-list-item-id {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}

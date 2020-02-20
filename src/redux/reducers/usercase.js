@@ -1,10 +1,10 @@
-import { CHANGE_SCREEN } from '../actionTypes';
+import { CHANGE_USER_CASE } from '../actionTypes';
 
-const initialState = 100;
+const initialState = null;
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case CHANGE_SCREEN: {
+    case CHANGE_USER_CASE: {
       return action.id;
     }
     default:

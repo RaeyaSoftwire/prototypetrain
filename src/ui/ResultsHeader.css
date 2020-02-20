@@ -1,18 +1,27 @@
 .ResultsHeader {
   display: flex;
   flex-direction: column;
-  background-color: #ce0e2d;
   border-top: 1px solid #e77c8d;
-  padding: 12px 16px;
-  color: white;
 }
 
 .ResultsHeader-title {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 24px;
+  padding: 12px 16px;
+  background-color: #ce0e2d;
+  color: white;
 }
 
 .ResultsHeader-subtitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: white;
   margin-top: 2px;
-  font-size: 12px;
+  font-size: 14px;
+  padding: 6px 16px;
+}
+
+.ResultsHeader-subtitle-right {
+  text-align: right;
 }

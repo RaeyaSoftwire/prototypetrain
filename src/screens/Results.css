@@ -15,3 +15,47 @@
 .Results-content {
   padding: 16px;
 }
+
+.Results-earlier {
+  display: flex;
+  flex-direction: row;
+  padding: 20px 16px;
+}
+
+.Results-earlier-text {
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: 32px;
+}
+
+.Results-earlier-chevron {
+  transform: rotate(180deg);
+}
+
+.Results-later {
+  display: flex;
+  flex-direction: row;
+  padding: 20px 16px;
+}
+
+.Results-later-text {
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: 32px;
+}
+
+.Results-modal {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 64px;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.hidden {
+  display: none;
+}

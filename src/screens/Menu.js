@@ -24,7 +24,7 @@ class Menu extends React.Component {
   render() {
     return (
       <div className="Menu">
-        <Header noBack title="Journey menu" />
+        <Header noBack data={{ title: 'Journey menu' }} />
         <div className = "Menu-list">
           {userCases.map(userCase => {
             return (

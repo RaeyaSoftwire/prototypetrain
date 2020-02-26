@@ -1,18 +1,16 @@
 .Badge {
-  background-color: #666666;
-  color: #ffffff;
-  padding: 2px 8px;
+  color: #707070;
   font-size: 12px;
 }
 
 .Badge-cheapest {
-  background-color: #417505;
+  color: #417505;
 }
 
 .Badge-fastest {
-  background-color: #666666;
+  color: #707070;
 }
 
 .Badge-discounted {
-  background-color: #005DA7;
+  color: #005DA7;
 }

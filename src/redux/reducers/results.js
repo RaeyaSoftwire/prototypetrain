@@ -37,6 +37,10 @@ const translateJourneyResponse = journey => {
 
     return {
       id: serviceIndex,
+      station: {
+        origin: service.Origin.Name,
+        destination: service.Destination.Name,
+      },
       time: {
         departure: moment(service.DepartureDateTime),
         arrival: moment(service.ArrivalDateTime),

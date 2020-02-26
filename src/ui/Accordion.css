@@ -1,0 +1,39 @@
+.Accordion {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.Accordion-control {
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 16px 0;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+.Accordion-chevron {
+  width: 16px;
+  fill: black;
+}
+
+.Accordion-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.Accordion-control-left {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+.Accordion-control-title {
+  flex-basis: 144px;
+}
+
+.Accordion-content {
+  padding: 16px 0;
+}

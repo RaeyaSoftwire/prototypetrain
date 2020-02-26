@@ -12,12 +12,8 @@
   align-items: flex-start;
 }
 
-.JourneyResult-badges {
-  padding-bottom: 16px;
-}
-
 .JourneyResult-badges > * {
-  margin-right: 8px;
+  margin-right: 16px;
 }
 
 .JourneyResult-details {
@@ -25,8 +21,8 @@
 }
 
 .JourneyResult-logo {
-  margin-top: 12px;
   width: 40px;
+  margin-right: 16px;
 }
 
 .JourneyResult-time {
@@ -59,11 +55,11 @@
 
 .JourneyResult-length {
   flex-grow: 1;
-  padding: 16px 0;
+  padding: 12px 0;
 }
 
 .JourneyResult-info {
-  padding: 16px 0;
+  padding: 12px 0;
   color: #ce0e2d;
 }
 
@@ -72,7 +68,29 @@
   font-size: 12px;
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: flex-end;
   margin-bottom: 4px;
   color: #707070;
+}
+
+.JourneyResult-personIcon {
+  fill: #707070;
+  height: 12px;
+  padding: 0 4px;
+}
+
+.JourneyResult-chevron {
+  fill: #707070;
+  width: 12px;
+  margin-left: 16px;
+  flex-shrink: 0;
+}
+
+.JourneyResult-top {
+  align-items: center;
+}
+
+.JourneyResult-top-content {
+  flex-grow: 1;
 }

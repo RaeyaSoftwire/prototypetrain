@@ -43,7 +43,7 @@ class Search extends React.Component {
 
     return (
       <div className="Search">
-        <Header noBack title="Plan and buy" />
+        <Header noBack data={{ title: 'Plan and buy' }} />
         <div className="Search-content">
           <div className="Search-stations">
             <StationPicker selected={from} onChange={(e, { value }) => changeSearchData({ from: value })} />

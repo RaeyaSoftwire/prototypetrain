@@ -27,6 +27,23 @@ export default class TicketResultList extends React.Component {
     return tickets.map(ticket => <TicketResult key={ticket.id} data={ticket} onClick={() => onClick(ticket.id)} onConditionsClick={() => onConditionsClick(ticket.id)} onPriceBreakdownClick={() => onPriceBreakdownClick(ticket.id)} />);
   }
 
+  presentHighlight() {
+    return (
+      <div className="TicketResultList-highlight">
+        <div className="TicketResultList-label">
+          3 peeps return from
+        </div>
+        <div className="TicketResultList-highlight-title">
+          Cheapest journey
+        </div>
+        <div className="TicketResultList-highlight-description">
+          Outbound: Advance single
+          Return: Advance single
+        </div>
+      </div>
+    )
+  }
+
   render() {
     const { data } = this.props;
 
@@ -35,7 +52,12 @@ export default class TicketResultList extends React.Component {
     
     return (
       <div className="TicketResultList">
-        <h3>Recommended tickets</h3>
+        <div className="TicketResultList-highlight-">
+          Cheapest journey
+        </div>
+        <div className="TicketResultList-highlight-description">
+          Cheapest journey
+        </div>
         <div className="TicketResultList-group">
           {this.presentTickets(highlights)}
         </div>  

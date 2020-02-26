@@ -4,23 +4,27 @@ import './ResultsHeader.css';
 
 export default class ResultsHeader extends React.Component {
   render() {
-    const { title, subtitle, priceInfo } = this.props;
+    const { stage } = this.props;
 
-    const hasSubtitle = subtitle || priceInfo;
 
     return (
       <div className="ResultsHeader">
-        <div className="ResultsHeader-title">
-          {title}
+        <div className={`ResultsHeader-group ${stage === 0 ? 'selected' : ''}`}>
+          <div className="ResultsHeader-title">
+            1 - Going out
+          </div>
+          <div className="ResultsHeader-subtitle">
+            Wahey 24 Feb
+          </div>
         </div>
-        {hasSubtitle && <div className="ResultsHeader-subtitle">
-          {subtitle && <div className="ResultsHeader-subtitle-left">
-            {subtitle}
-          </div>}
-          {priceInfo && <div className="ResultsHeader-subtitle-right">
-            {priceInfo}
-          </div>}
-        </div>}
+        <div className={`ResultsHeader-group ${stage === 1 ? 'selected' : ''}`}>
+          <div className="ResultsHeader-title">
+            2 - Coming back
+          </div>
+          <div className="ResultsHeader-subtitle">
+            Weddddd 62 Feb
+          </div>
+        </div>
       </div>
     )
   }

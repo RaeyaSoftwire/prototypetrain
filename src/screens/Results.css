@@ -19,7 +19,7 @@
 .Results-earlier {
   display: flex;
   flex-direction: row;
-  padding: 20px 16px;
+  padding: 16px;
 }
 
 .Results-earlier-text {
@@ -29,13 +29,19 @@
 }
 
 .Results-earlier-chevron {
-  transform: rotate(180deg);
+  width: 8px;
+  transform: rotate(-90deg);
+}
+
+.Results-later-chevron {
+  width: 8px;
+  transform: rotate(90deg);
 }
 
 .Results-later {
   display: flex;
   flex-direction: row;
-  padding: 20px 16px;
+  padding: 16px;
 }
 
 .Results-later-text {

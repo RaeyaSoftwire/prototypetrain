@@ -3,15 +3,14 @@ import JourneyResultList from '../ui/JourneyResultList';
 import TicketResultList from '../ui/TicketResultList';
 import ResultsHeader from '../ui/ResultsHeader';
 import Header from '../ui/Header';
+import Footer from '../ui/Footer';
 import { connect } from 'react-redux';
 import { changeSelectedOutboundJourney, changeSelectedOutboundTicket, changeSelectedInboundJourney, changeSelectedInboundTicket, changeScreen } from '../redux/actions';
-import { getStationName } from '../utility/get';
 import { earlierInboundServices, earlierOutboundServices, laterOutboundServices, laterInboundServices } from '../redux/actions';
 import { getSelectedOutboundService, getSelectedOutboundTicket, getSelectedInboundService, getSelectedInboundTicket } from '../utility/get';
 
 import journeyInfoScreen from '../data/journeyInfo.png';
 import termsAndConditionsScreen from '../data/termsAndConditions.png';
-import priceBreakdownOverlay from '../data/priceBreakdownModal.png';
 
 import LargeChevron from '../data/icon/large-chevron';
 import './Results.css';
@@ -19,7 +18,7 @@ import { formatPrice } from '../utility/format';
 
 const getCheapestTicketPrice = tickets => Math.min(...tickets.map(ticket => ticket.price));
 
-const addPricesToServices = services => {
+const addDataToServices = services => {
   services.forEach(service => {
     service.price = {
       standard: getCheapestTicketPrice(service.tickets.filter(ticket => !ticket.isFirst)),
@@ -43,10 +42,10 @@ const mapStateToProps = state => {
   const { search, results } = state;
   const { outbound, inbound } = results;
 
-  const passengers = search.adults + search.children;
+  const passengers = parseInt(search.adults) + parseInt(search.children);
 
   if (outbound) {
-    addPricesToServices(outbound);
+    addDataToServices(outbound);
 
     outbound.forEach(service => {
       service.passengers = passengers;
@@ -55,32 +54,11 @@ const mapStateToProps = state => {
   }
 
   if (inbound) {
-    addPricesToServices(inbound);
+    addDataToServices(inbound);
 
     inbound.forEach(service => {
       service.passengers = passengers;
       service.tickets.forEach(ticket => ticket.passengers = passengers);
-    });
-    
-    const cheapestInboundStandardPrice = Math.min(...inbound.map(service => service.price.standard));
-    const cheapestInboundFirstPrice = Math.min(...inbound.map(service => service.price.first));
-    
-    outbound.forEach(service => {
-      if (!service.tickets.some(ticket => ticket.price === service.price.standard && ticket.isReturn)) {
-        service.price.standard += cheapestInboundStandardPrice;
-      }
-      if (!service.tickets.some(ticket => ticket.price === service.price.first && ticket.isReturn)) {
-        service.price.first += cheapestInboundFirstPrice;
-      } 
-      service.tickets.forEach(ticket => {
-        ticket.totalPrice = ticket.price + (ticket.isReturn ? 0 : cheapestInboundStandardPrice);
-      })
-    });
-  } else {
-    outbound.forEach(service => {
-      service.tickets.forEach(ticket => {
-        ticket.totalPrice = ticket.price;
-      })
     });
   }
 
@@ -206,7 +184,7 @@ class Results extends React.Component {
     let data = {
       ticketType: search.ticketType,
       time: {
-        outbound: search.outbound.time,
+        outbound: search.outbound.time.format('ddd DD MMM'),
       },
     };
 
@@ -216,7 +194,14 @@ class Results extends React.Component {
       } else if (screen === 3 || screen === 4) {
         data.stage = 1;
       }
-      data.time.inbound = search.inbound.time;
+      data.time.inbound = search.inbound.time.format('ddd DD MMM');
+    } else if (search.ticketType === 2) {
+      if (screen === 1 || screen === 2) {
+        data.stage = 0;
+      } else if (screen === 3 || screen === 4) {
+        data.stage = 1;
+      }
+      data.time.inbound = 'Open return';
     }
 
     return <ResultsHeader data={data} />;
@@ -265,6 +250,7 @@ class Results extends React.Component {
       const { changeScreen, inbound } = this.props;
 
       selectOutboundTicket(id);
+      // doesnt use selectedOutboundTicket because it wont update before here
       if (inbound && !selectedOutboundService.tickets.find(ticket => ticket.id === id).isReturn) {
         changeScreen(3);
       } else {
@@ -274,21 +260,13 @@ class Results extends React.Component {
 
     return (
       <div className="Results-content">
-        <TicketResultList data={data} onClick={onClick} onPriceBreakdownClick={() => this.setState({ priceBreakdown: true })} onConditionsClick={() => this.setState({ termsAndConditions: true })} />
+        <TicketResultList data={data} onClick={onClick} onPriceBreakdownClick={id => this.setState({ priceBreakdown: id })} onConditionsClick={() => this.setState({ termsAndConditions: true })} />
       </div>
     )
   }
 
   getReturnJourneyContent() {
-    const { inbound, selectInboundJourney, selectedOutboundTicket, laterInboundServices, earlierInboundServices } = this.props;
-
-    inbound.forEach(service => {
-      service.price.standard += selectedOutboundTicket.price;
-      service.price.first += selectedOutboundTicket.price;
-      service.tickets.forEach(ticket => {
-        ticket.totalPrice = ticket.price + selectedOutboundTicket.price;
-      })
-    });
+    const { inbound, selectInboundJourney, laterInboundServices, earlierInboundServices } = this.props;
 
     return (
       <div className="Results-content-fullwidth">
@@ -300,38 +278,27 @@ class Results extends React.Component {
   }
 
   getReturnTicketContent() {
-    const { inbound, selectInboundTicket, selectedOutboundTicket, selectedInboundService } = this.props;
-  
-    inbound.forEach(service => {
-      service.price.standard += selectedOutboundTicket.price;
-      service.price.first += selectedOutboundTicket.price;
-      service.tickets.forEach(ticket => {
-        ticket.totalPrice = ticket.price + selectedOutboundTicket.price;
-      })
-    });
+    const { selectInboundTicket, selectedInboundService } = this.props;
 
     const data = this.getTicketPresentationData(selectedInboundService.tickets);
 
     return (
       <div className="Results-content">
-        <TicketResultList data={data} onClick={id => { selectInboundTicket(id); this.goToNextScreen() }} onPriceBreakdownClick={() => this.setState({ priceBreakdown: true })} onConditionsClick={() => this.setState({ termsAndConditions: true })} />
+        <TicketResultList data={data} onClick={id => { selectInboundTicket(id); this.goToNextScreen() }} onPriceBreakdownClick={id => this.setState({ priceBreakdown: id })} onConditionsClick={() => this.setState({ termsAndConditions: true })} />
       </div>
     )
   }
 
   getHeader() { 
-    const { outbound, search } = this.props;
+    const { search } = this.props;
 
-    let data = {};
-
-    if (outbound) {
-      data.station = {};
-      data.station.origin = search.from;
-      data.station.destination = search.to;
-      data.ticketType = search.ticketType;
-    } else {
-      data.title = 'Results';
-    }
+    const data = {
+      station: {
+        origin: search.from,
+        destination: search.to,
+      },
+      ticketType: search.ticketType,
+    };
 
     return (
       <Header data={data} onBackClick={() => this.goToPreviousScreen()} />
@@ -396,28 +363,121 @@ class Results extends React.Component {
     }
   }
 
+  getFooter() {
+    const { screen, selectedOutboundTicket } = this.props;
+
+    if (screen === 3 || screen === 4) {
+      return (
+        <Footer>
+          <div className="Results-footer">
+            <div className="Results-footer-left">
+              <b>Outbound</b> {selectedOutboundTicket.name} x{selectedOutboundTicket.passengers}
+            </div>
+            <div className="Results-footer-right">
+              {formatPrice(selectedOutboundTicket.price)}
+            </div>
+          </div>
+        </Footer>
+      );
+    }
+
+    return null;
+  }
+
+  getPriceBreakdownService(service, ticket) {
+    if (!service) {
+      return null;
+    }
+
+    return (
+      <div className="PriceBreakdown-service">
+        <div className="PriceBreakdown-service-header">
+          <div className="PriceBreakdown-service-header-left">
+            <div className="PriceBreakdown-service-title">
+              {service.station.origin} - {service.station.destination}
+            </div>
+            <div className="PriceBreakdown-service-subtitle">
+              {service.time.departure.format('ddd DD MMM')}, {service.time.departure.format('HH:mm')}-{service.time.arrival.format('HH:mm')}
+            </div>
+          </div>
+          <div className="PriceBreakdown-service-header-right">
+            <LargeChevron className="PriceBreakdown-chevron" />
+          </div>
+        </div>
+        <div className="PriceBreakdown-service-ticketName">
+          {ticket.name}
+        </div>
+        <div className="PriceBreakdown-service-row">
+          <div className="PriceBreakdown-service-row-quantity">
+            {service.passengers}x
+          </div>
+          <div className="PriceBreakdown-service-row-main">
+            Passengers
+          </div>
+          <div className="PriceBreakdown-service-row-price">
+            {ticket.isDiscounted ? formatPrice(ticket.price * 1.2) : formatPrice(ticket.price)}
+          </div>
+        </div>
+        {ticket.isDiscounted && <div className="PriceBreakdown-service-row discount">
+          <div className="PriceBreakdown-service-row-main">
+            Split ticket discount
+          </div>
+          <div className="PriceBreakdown-service-row-price">
+            {formatPrice(ticket.price * -0.2)}
+          </div>
+        </div>}
+        <div className="PriceBreakdown-service-row total">
+          <div className="PriceBreakdown-service-row-main">
+            Total
+          </div>
+          <div className="PriceBreakdown-service-row-price">
+            {formatPrice(ticket.price)}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  getPriceBreakdown() {
+    const { selectedOutboundService, selectedInboundService, selectedOutboundTicket, selectedInboundTicket, screen } = this.props;
+    const { priceBreakdown } = this.state;
+
+    return (
+      <div className="PriceBreakdown">
+        <div className="PriceBreakdown-header">
+          Price breakdown
+        </div>
+        {this.getPriceBreakdownService(selectedOutboundService, screen < 3 ? selectedOutboundService.tickets[priceBreakdown] : selectedOutboundTicket)}
+        {screen >= 3 ? this.getPriceBreakdownService(selectedInboundService, screen < 5 ? selectedInboundService.tickets[priceBreakdown] : selectedInboundTicket) : null}
+      </div>
+    );
+  }
+
   render() {
     const { journeyInfo, termsAndConditions, priceBreakdown } = this.state;
 
     return (
-      <div className="Results">
-        {priceBreakdown && <div className="Results-modal">
-          <img src={priceBreakdownOverlay} onClick={() => this.setState({ priceBreakdown: false })}/>
+      <React.Fragment>
+        <div className="Results">
+          <div className={`${journeyInfo ? '' : 'hidden'}`}>
+            <Header data={{ title: 'Journey information' }} onBackClick={() => this.setState({ journeyInfo: false })} />
+            <img src={journeyInfoScreen} className="Results-fakeContent" />
+          </div>
+          <div className={`${termsAndConditions ? '' : 'hidden'}`}>
+            <Header data={{ title: 'Terms and conditions' }} onBackClick={() => this.setState({ termsAndConditions: false })} />
+            <img src={termsAndConditionsScreen} className="Results-fakeContent" />
+          </div>
+          <div className={`${termsAndConditions || journeyInfo ? 'hidden' : ''}`}>
+            {this.getHeader()}
+            {this.getResultsHeader()}
+            {this.getContent()}
+            {this.getFooter()}
+          </div>
+        </div>
+        {priceBreakdown !== false && <div className="Results-modal" onClick={() => this.setState({ priceBreakdown: false })}>
+          {this.getPriceBreakdown()}
         </div>}
-        <div className={`${journeyInfo ? '' : 'hidden'}`}>
-          <Header data={{ title: 'Journey information' }} onBackClick={() => this.setState({ journeyInfo: false })} />
-          <img src={journeyInfoScreen} className="Results-fakeContent" />
-        </div>
-        <div className={`${termsAndConditions ? '' : 'hidden'}`}>
-          <Header data={{ title: 'Terms and conditions' }} onBackClick={() => this.setState({ termsAndConditions: false })} />
-          <img src={termsAndConditionsScreen} className="Results-fakeContent" />
-        </div>
-        <div className={`${termsAndConditions || journeyInfo ? 'hidden' : ''}`}>
-          {this.getHeader()}
-          {this.getResultsHeader()}
-          {this.getContent()}
-        </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

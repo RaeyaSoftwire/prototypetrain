@@ -1,17 +1,16 @@
 import React from 'react';
 import Header from '../ui/Header';
 import { changeScreen, changeSelectedInboundTicket } from '../redux/actions';
-import userCases from '../data/userCases';
 import reviewFooter from '../data/review-footer.png';
+import reviewScreen from '../data/review.png';
 
 import './Review.css';
 import { getChangesString, getDurationString, getSelectedOutboundTicket, getSelectedOutboundService, getSelectedInboundService, getSelectedInboundTicket } from '../utility/get';
 import Block from '../ui/Block';
 import { connect } from 'react-redux';
-import Accordion from '../ui/Accordion';
 
 const mapStateToProps = state => {
-  const { results, selection } = state;
+  const { results, selection, search } = state;
 
   const outboundService = getSelectedOutboundService(results, selection);
   const outboundTicket = getSelectedOutboundTicket(results, selection);
@@ -19,8 +18,8 @@ const mapStateToProps = state => {
   const inboundTicket = getSelectedInboundTicket(results, selection);
 
   return {
-    usercase: userCases.find(uc => uc.id === state.usercase),
     results,
+    search,
     selection,
     outboundService,
     outboundTicket,
@@ -121,42 +120,36 @@ class Review extends React.Component {
     );
   }
 
+  getHeader() { 
+    const { search } = this.props;
+
+    const data = {
+      station: {
+        origin: search.from,
+        destination: search.to,
+      },
+      ticketType: search.ticketType,
+    };
+
+    return (
+      <Header data={data} onBackClick={() => this.goToPreviousScreen()} />
+    );
+  }
+
   render() {
-    const { usercase, outboundService, outboundTicket, inboundService, inboundTicket } = this.props;
+    const { outboundService, outboundTicket, inboundService, inboundTicket } = this.props;
 
     return (
       <div className="Review">
-        <Header title="Review your choice and options" onBackClick={() => this.goToPreviousScreen()} />
+        {this.getHeader()}
         <div className="Review-title">
-          Your journey
+          Review your selection
         </div>
         <div className="Review-services">
           {this.presentService(outboundService, outboundTicket)}
           {this.presentService(inboundService, inboundTicket)}
         </div>
-        <div className="Review-title">
-          Seat reservations
-        </div>
-        <div className="Review-subtitle">
-          We picked seats - feel free to change them.
-        </div>
-        <Block className="Review-seats">
-          {this.presentSeatGroup(outboundService)}
-          {this.presentSeatGroup(inboundService)}
-          <div className="Review-actions">
-            <div className="Review-action">
-              Change seats
-            </div>
-          </div>
-        </Block>
-        <div className="Review-additional">
-          <Accordion title="Assisted travel" value="None selected">
-            You would be able to specify your assisted travel method here.
-          </Accordion>
-          <Accordion title="Ticket delivery" value="eTicket">
-            You would be able to select your ticket delivery method here.
-          </Accordion>
-        </div>
+        <img src={reviewScreen} className="Review-fakeContent" />
         <img src={reviewFooter} className="Review-fakeContent" onClick={() => this.goToNextScreen()} />
       </div>
     )

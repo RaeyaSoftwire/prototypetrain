@@ -1,6 +1,7 @@
 import React from 'react';
 import Block from './Block';
 import { formatPrice } from '../utility/format';
+import Badge from './Badge';
 
 import LargeChevron from '../data/icon/large-chevron';
 import PersonIcon from '../data/icon/person';
@@ -28,17 +29,20 @@ export default class TicketResult extends React.Component {
                   {formatPrice(data.price)}
                 </div>
               </div>
-              {false && <div className="TicketResult-note">
-                Only 4 available
-              </div>}
+              <div className="TicketResult-sub">
+                {false && <div className="TicketResult-note">
+                  Only 4 available
+                </div>}
+                {data.isDiscounted && <Badge discounted text="Discounted" />}
+              </div>
             </div>
             <LargeChevron className="TicketResult-chevron" />
           </div>
-          <div className="TicketResult-bottom">
-            <div className="TicketResult-terms" onClick={e => { onConditionsClick(e); e.stopPropagation() }}>
-              Full conditions
+          <div className="TicketResult-actions">
+            <div className="TicketResult-action" onClick={e => { onConditionsClick(e); e.stopPropagation() }}>
+              Ticket conditions
             </div>
-            <div className="TicketResult-terms" onClick={e => { onPriceBreakdownClick(e); e.stopPropagation() }}>
+            <div className="TicketResult-action" onClick={e => { onPriceBreakdownClick(e); e.stopPropagation() }}>
               Price breakdown
             </div>
           </div>

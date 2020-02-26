@@ -5,23 +5,6 @@ import Accordion from '../ui/Accordion';
 import './TicketResultList.css';
 
 export default class TicketResultList extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      dropdownsOpen: new Array(props.data.categories.length).fill(false),
-    };
-  }
-
-  toggleDropdown(id) {
-    const { dropdownsOpen } = this.state;
-    dropdownsOpen[id] = !dropdownsOpen[id];
-
-    this.setState({
-      dropdownsOpen,
-    });
-  }
-
   presentTickets(tickets) {
     const { onClick, onConditionsClick, onPriceBreakdownClick } = this.props;
 
@@ -49,10 +32,16 @@ export default class TicketResultList extends React.Component {
     const { data } = this.props;
 
     const { highlights, categories } = data;
-    const { dropdownsOpen } = this.state;
     
+    const highlightHasDiscount = highlights.some(highlight => highlight.ticket.isDiscounted);
+    const categoriesHaveDiscount = categories.some(category => category.tickets.some(ticket => ticket.isDiscounted));
+    const isSomeDiscount = highlightHasDiscount || categoriesHaveDiscount;
+
     return (
       <div className="TicketResultList">
+        {isSomeDiscount && <div className="TicketResultList-discountMessage">
+          Some of these tickets are discounted — check the price breakdown for more information.
+        </div>}
         {this.presentHighlights(highlights)}
         {categories.map((category, index) => (
           <Accordion key={index} title={category.title}>

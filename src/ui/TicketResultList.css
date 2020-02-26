@@ -60,3 +60,12 @@
   font-size: 20px;
   padding-bottom: 16px;
 }
+
+.TicketResultList-discountMessage {
+  border: 1px solid #022d68;
+  color: #022d68;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 8px 16px;
+  margin-bottom: 8px;
+}

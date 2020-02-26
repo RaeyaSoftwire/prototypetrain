@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Header from '../ui/Header';
 import { changeScreen } from '../redux/actions';
 import userCases from '../data/userCases';
+import confirmationScreen from '../data/confirmation.png';
 
 import './Confirmation.css';
 
@@ -11,6 +12,7 @@ const mapStateToProps = state => {
     usercase: userCases.find(uc => uc.id === state.usercase),
     results: state.results,
     selection: state.selection,
+    search: state.search,
   };
 };
 
@@ -27,13 +29,29 @@ class Confirmation extends React.Component {
     changeScreen(0);
   }
 
+  getHeader() { 
+    const { search } = this.props;
+
+    const data = {
+      station: {
+        origin: search.from,
+        destination: search.to,
+      },
+      ticketType: search.ticketType,
+    };
+
+    return (
+      <Header data={data} onBackClick={() => this.goToFirstScreen()} />
+    );
+  }
+
   render() {
     const { usercase } = this.props;
     
     return (
       <div className="Confirmation">
-        <Header title="Booking complete" noBack hasClose onCloseClick={() => this.goToFirstScreen()} />
-        <img src={usercase.confirmation} className="Confirmation-fakeContent" />
+        {this.getHeader()}
+        <img src={confirmationScreen} className="Confirmation-fakeContent" />
       </div>
     )
   }

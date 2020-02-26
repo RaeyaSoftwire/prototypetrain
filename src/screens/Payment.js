@@ -2,11 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Header from '../ui/Header';
 import Button from '../ui/Button';
-import Block from '../ui/Block';
 import { changeScreen } from '../redux/actions';
 import paymentScreen from '../data/payment.png';
 
 import './Payment.css';
+
+const mapStateToProps = state => {
+  const { search } = state;
+
+  return {
+    search,
+  };
+}
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -35,10 +42,26 @@ class Payment extends React.Component {
     changeScreen(this.getNextScreenId());
   }
 
+  getHeader() { 
+    const { search } = this.props;
+
+    const data = {
+      station: {
+        origin: search.from,
+        destination: search.to,
+      },
+      ticketType: search.ticketType,
+    };
+
+    return (
+      <Header data={data} onBackClick={() => this.goToPreviousScreen()} />
+    );
+  }
+
   render() {
     return (
       <div className="Payment">
-        <Header title="Pay with saved card" onBackClick={() => this.goToPreviousScreen()} />
+        {this.getHeader()}
         <img src={paymentScreen} className="Payment-fakeContent" />
         <Button text="Pay" onClick={() => this.goToNextScreen()} />
       </div>
@@ -47,6 +70,6 @@ class Payment extends React.Component {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(Payment);

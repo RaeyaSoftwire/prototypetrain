@@ -4,6 +4,7 @@ import SingleIcon from '../data/icon/single';
 import ReturnIcon from '../data/icon/return';
 import OpenReturnIcon from '../data/icon/open-return';
 import SeasonIcon from '../data/icon/season';
+import Header from '../ui/Header';
 
 export const getStationName = id => {
   return stations.find(station => station.id === id).name;

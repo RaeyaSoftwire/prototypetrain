@@ -48,30 +48,24 @@ const mapStateToProps = state => {
   if (outbound) {
     addPricesToServices(outbound);
 
-    outbound.forEach(service => service.passengers = passengers);
-
-    if (search.ticketType === 0) {
-      outbound.forEach(service => {
-        service.priceLabel = 'From';
-      });
-    }
-    else if (search.ticketType === 2) {
-      outbound.forEach(service => {
-        service.priceLabel = 'Return from';
-      });
-    }
+    outbound.forEach(service => {
+      service.passengers = passengers;
+      service.tickets.forEach(ticket => ticket.passengers = passengers);
+    });
   }
 
   if (inbound) {
     addPricesToServices(inbound);
 
-    inbound.forEach(service => service.passengers = passengers);
-
+    inbound.forEach(service => {
+      service.passengers = passengers;
+      service.tickets.forEach(ticket => ticket.passengers = passengers);
+    });
+    
     const cheapestInboundStandardPrice = Math.min(...inbound.map(service => service.price.standard));
     const cheapestInboundFirstPrice = Math.min(...inbound.map(service => service.price.first));
     
     outbound.forEach(service => {
-      service.priceLabel = 'Return from';
       if (!service.tickets.some(ticket => ticket.price === service.price.standard && ticket.isReturn)) {
         service.price.standard += cheapestInboundStandardPrice;
       }
@@ -80,7 +74,6 @@ const mapStateToProps = state => {
       } 
       service.tickets.forEach(ticket => {
         ticket.totalPrice = ticket.price + (ticket.isReturn ? 0 : cheapestInboundStandardPrice);
-        ticket.priceLabel = 'Return from';
       })
     });
   } else {
@@ -143,22 +136,47 @@ class Results extends React.Component {
     let cheapestFlexible = tickets.filter(ticket => ticket.isFlexible).reduce((result, ticket) => (ticket.price < result.price ? ticket : result));
 
     // Uniqueness
-    if (cheapestFirst.id === cheapestJourney.id) {
-      cheapestFirst = null;
+    if (cheapestJourney) {
+      if (cheapestFirst) {
+        if (cheapestFirst.id === cheapestJourney.id) {
+          cheapestFirst = null;
+        }  
+      }
+      if (cheapestFlexible) {
+        if (cheapestFlexible.id === cheapestJourney.id || cheapestFlexible.id === cheapestFirst.id) {
+          cheapestFlexible = null;
+        }  
+      }
     }
-    if (cheapestFlexible.id === cheapestJourney.id || cheapestFlexible.id === cheapestFirst.id) {
-      cheapestFlexible = null;
-    }
+  
+    let highlights = [];
 
-    const highlights = [cheapestJourney, cheapestFirst, cheapestFlexible].filter(item => !!item);
+    if (cheapestJourney) {
+      highlights.push({
+        title: 'Cheapest ticket',
+        ticket: cheapestJourney,
+      });
+    }
+    if (cheapestFirst) {
+      highlights.push({
+        title: 'Cheapest 1st class ticket',
+        ticket: cheapestFirst,
+      });
+    }
+    if (cheapestFlexible) {
+      highlights.push({
+        title: 'Cheapest flexible ticket',
+        ticket: cheapestFlexible,
+      });
+    }
     
     const otherFixed = tickets
       .filter(ticket => !ticket.isFlexible)
-      .filter(ticket => !highlights.some(highlight => highlight.id === ticket.id));
+      .filter(ticket => !highlights.some(highlight => highlight.ticket.id === ticket.id));
 
     const otherFlexible = tickets
       .filter(ticket => ticket.isFlexible)
-      .filter(ticket => !highlights.some(highlight => highlight.id === ticket.id));
+      .filter(ticket => !highlights.some(highlight => highlight.ticket.id === ticket.id));
 
     const categories = [];
 
@@ -183,17 +201,25 @@ class Results extends React.Component {
   }
 
   getResultsHeader() { 
-    const { screen } = this.props;
+    const { search, screen } = this.props;
 
-    let stage = 0;
+    let data = {
+      ticketType: search.ticketType,
+      time: {
+        outbound: search.outbound.time,
+      },
+    };
 
-    if (screen === 1 || screen === 2) {
-      stage = 0;
-    } else if (screen === 3 || screen === 4) {
-      stage = 1;
+    if (search.ticketType === 1) {
+      if (screen === 1 || screen === 2) {
+        data.stage = 0;
+      } else if (screen === 3 || screen === 4) {
+        data.stage = 1;
+      }
+      data.time.inbound = search.inbound.time;
     }
 
-    return <ResultsHeader stage={stage} />;
+    return <ResultsHeader data={data} />;
   }
 
   getEarlierButton(onClick) {
@@ -257,12 +283,10 @@ class Results extends React.Component {
     const { inbound, selectInboundJourney, selectedOutboundTicket, laterInboundServices, earlierInboundServices } = this.props;
 
     inbound.forEach(service => {
-      service.priceLabel = 'Return from';
       service.price.standard += selectedOutboundTicket.price;
       service.price.first += selectedOutboundTicket.price;
       service.tickets.forEach(ticket => {
         ticket.totalPrice = ticket.price + selectedOutboundTicket.price;
-        ticket.priceLabel = 'Return total';
       })
     });
 
@@ -279,12 +303,10 @@ class Results extends React.Component {
     const { inbound, selectInboundTicket, selectedOutboundTicket, selectedInboundService } = this.props;
   
     inbound.forEach(service => {
-      service.priceLabel = 'Return from';
       service.price.standard += selectedOutboundTicket.price;
       service.price.first += selectedOutboundTicket.price;
       service.tickets.forEach(ticket => {
         ticket.totalPrice = ticket.price + selectedOutboundTicket.price;
-        ticket.priceLabel = 'Return total';
       })
     });
 

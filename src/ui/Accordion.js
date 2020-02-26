@@ -1,4 +1,5 @@
 import React from 'react';
+import LargeChevron from '../data/icon/large-chevron';
 
 import './Accordion.css';
 
@@ -33,9 +34,7 @@ export default class Accordion extends React.Component {
               {value}
             </div>
           </div>
-          <div className={`Accordion-chevron ${this.state.open ? 'rotated' : ''}`}>
-            V
-          </div>
+          <LargeChevron className={`Accordion-chevron ${this.state.open ? 'rotated' : ''}`} />
         </div>
         {this.state.open && <div className="Accordion-content">
           {children}

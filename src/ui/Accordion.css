@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 0 16px;
 }
 
 .Accordion-control {
@@ -16,12 +15,13 @@
 }
 
 .Accordion-chevron {
-  width: 16px;
+  width: 8px;
   fill: black;
+  transform: rotate(90deg);
 }
 
 .Accordion-chevron.rotated {
-  transform: rotate(180deg);
+  transform: rotate(-90deg);
 }
 
 .Accordion-control-left {
@@ -31,7 +31,6 @@
 }
 
 .Accordion-control-title {
-  flex-basis: 144px;
 }
 
 .Accordion-content {

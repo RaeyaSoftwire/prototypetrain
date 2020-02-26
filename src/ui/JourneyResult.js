@@ -45,11 +45,11 @@ export default class JourneyResult extends React.Component {
               {(data.toc === 'GR') && <img src={logo} className="JourneyResult-logo" />}
               {this.getBadges()}
             </div>
-            {data.priceLabel && <div className="JourneyResult-priceLabel">
+            <div className="JourneyResult-priceLabel">
               {data.passengers}
               <PersonIcon className="JourneyResult-personIcon" />
-              {data.priceLabel}
-            </div>}
+              From
+            </div>
             <div className="JourneyResult-horizontal">
               <div className="JourneyResult-details">
                 <div className="JourneyResult-time">

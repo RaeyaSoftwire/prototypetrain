@@ -3,6 +3,7 @@ import Block from './Block';
 import { formatPrice } from '../utility/format';
 
 import LargeChevron from '../data/icon/large-chevron';
+import PersonIcon from '../data/icon/person';
 
 import './TicketResult.css';
 
@@ -15,9 +16,10 @@ export default class TicketResult extends React.Component {
         <div className="TicketResult">
           <div className="TicketResult-top">
             <div className="TicketResult-top-content">
-              {data.priceLabel && <div className="TicketResult-priceLabel">
-                {data.priceLabel}
-              </div>}
+              <div className="JourneyResult-priceLabel">
+                {data.passengers}
+                <PersonIcon className="JourneyResult-personIcon" />
+              </div>
               <div className="TicketResult-header">
                 <div className="TicketResult-title">
                   {data.name}

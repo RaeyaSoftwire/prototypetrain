@@ -11,7 +11,7 @@ nextTime.add(remainder, 'minutes').startOf('minute');
 
 const initialState = {
   searching: false,
-  from: 3457,
+  from: 3599,
   to: 6069,
   ticketType: 0,
   outbound: {

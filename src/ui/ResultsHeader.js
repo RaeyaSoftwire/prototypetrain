@@ -43,7 +43,6 @@ export default class ResultsHeader extends React.Component {
         </div>
         <div className="ResultsHeader-padder-small" />
       </React.Fragment>
-    )
-
+    );
   }
 }

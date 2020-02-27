@@ -30,7 +30,7 @@ const calculateFormValues = input => {
 
 const calculateState = formValues => {
   const newstate = {
-    after: formValues.after,
+    after: formValues.after === "true",
     time: moment(`${formValues.date} ${formValues.time}`),
   };
   return newstate;

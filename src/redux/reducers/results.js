@@ -31,7 +31,7 @@ const translateJourneyResponse = journey => {
       });
 
     // Add a discount the FIRST result
-    if (serviceIndex === 0 && tickets) {
+    if (serviceIndex === 0 && tickets.length > 0) {
       tickets[0].isDiscounted = true;
     }
 

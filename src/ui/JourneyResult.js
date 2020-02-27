@@ -11,6 +11,12 @@ import logo from '../data/logo.svg';
 import './JourneyResult.css';
 
 export default class JourneyResult extends React.Component {
+  constructor(props) {
+    super(props);
+    
+    this.handleClick = this.handleClick.bind(this);
+  }
+  
   getBadges() {
     const { data } = this.props;
 
@@ -34,35 +40,46 @@ export default class JourneyResult extends React.Component {
     return null;
   }
 
+  handleClick() {
+    const { data, onClick } = this.props;
+
+    if (data.tickets.length > 0) {
+      onClick();
+    }
+  }
+
   render() {
-    const { data, onClick, onJourneyInfoClick } = this.props;
+    const { data, onJourneyInfoClick } = this.props;
 
     return (
-      <Block className="JourneyResult" onClick={onClick}>
+      <Block className="JourneyResult" onClick={this.handleClick}>
         <div className="JourneyResult-horizontal JourneyResult-top">
           <div className="JourneyResult-top-content">
             <div className="JourneyResult-horizontal">
               {(data.toc === 'GR') && <img src={logo} className="JourneyResult-logo" />}
               {this.getBadges()}
             </div>
-            <div className="JourneyResult-priceLabel">
+            {data.price.standard && <div className="JourneyResult-priceLabel">
               {data.passengers}
               <PersonIcon className="JourneyResult-personIcon" />
               From
-            </div>
+            </div>}
             <div className="JourneyResult-horizontal">
               <div className="JourneyResult-details">
                 <div className="JourneyResult-time">
                   {data.time.departure.format('HH:mm')} > {data.time.arrival.format('HH:mm')}
                 </div>
+                {data.note && <div className="JourneyResult-note">
+                  {data.note}
+                </div>}
               </div>
               <div className="JourneyResult-prices">
-                <div className="JourneyResult-prices-standard">
+                {data.price.standard && <div className="JourneyResult-prices-standard">
                   {formatPrice(data.price.standard)}
-                </div>
-                <div className="JourneyResult-prices-first">
+                </div>}
+                {data.price.first && <div className="JourneyResult-prices-first">
                   1st {formatPrice(data.price.first)}
-                </div>
+                </div>}
               </div>
             </div>
           </div>

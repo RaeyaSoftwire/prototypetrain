@@ -20,10 +20,18 @@ const getCheapestTicketPrice = tickets => Math.min(...tickets.map(ticket => tick
 
 const addDataToServices = services => {
   services.forEach(service => {
-    service.price = {
-      standard: getCheapestTicketPrice(service.tickets.filter(ticket => !ticket.isFirst)),
-      first: getCheapestTicketPrice(service.tickets.filter(ticket => ticket.isFirst)),
-    };
+    if (service.tickets.length > 0) {
+      service.price = {
+        standard: getCheapestTicketPrice(service.tickets.filter(ticket => !ticket.isFirst)),
+        first: getCheapestTicketPrice(service.tickets.filter(ticket => ticket.isFirst)),
+      };
+    } else {
+      service.price = {
+        standard: null,
+        first: null,
+      };
+      service.note = 'No tickets available';
+    }
     service.time.duration = service.time.arrival.diff(service.time.departure, 'minutes');
   });
 }

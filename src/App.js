@@ -1,7 +1,9 @@
 import React from 'react';
 import Results from './screens/Results';
+import ResultsThree from './screens/ResultsThree';
 import Search from './screens/Search';
 import Review from './screens/Review';
+import ReviewThree from './screens/ReviewThree';
 import Payment from './screens/Payment';
 import Confirmation from './screens/Confirmation';
 import Menu from './screens/Menu';
@@ -19,6 +21,8 @@ class App extends React.Component {
   getScreen() {
     const { screen } = this.props;
 
+    const useThreeScreen = true;
+
     switch (screen) {
       case 0:
         return <Search />;
@@ -26,9 +30,19 @@ class App extends React.Component {
       case 2:
       case 3:
       case 4:
-        return <Results />;
+      case 10:
+      case 11:
+        if (useThreeScreen) {
+          return <ResultsThree />;
+        } else {
+          return <Results />;
+        }
       case 5:
-        return <Review />;
+        if (useThreeScreen) {
+          return <ReviewThree />;
+        } else {
+          return <Review />;
+        }
       case 6:
         return <Payment />;
       case 7:

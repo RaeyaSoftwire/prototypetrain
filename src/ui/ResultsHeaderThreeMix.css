@@ -1,0 +1,36 @@
+.ResultsHeaderThreeMix {
+  display: flex;
+  flex-direction: row;
+  background-color: #ffffff;
+  padding: 0 16px;
+  
+  width: 100%;
+  height: 54px;
+  top: 80px;
+  position: absolute;
+}
+
+.ResultsHeaderThreeMix-padder {
+  width: 100%;
+  height: 54px;
+}
+
+.ResultsHeaderThreeMix-group {
+  flex-basis: 50%;
+  flex-shrink: 0;
+  color: #999999;
+  padding: 8px 0;
+}
+
+.ResultsHeaderThreeMix-group.selected {
+  color: #382f2d;
+}
+
+.ResultsHeaderThreeMix-title {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.ResultsHeaderThreeMix-subtitle {
+  font-size: 14px;
+}

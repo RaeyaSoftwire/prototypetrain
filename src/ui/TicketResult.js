@@ -10,10 +10,10 @@ import './TicketResult.css';
 
 export default class TicketResult extends React.Component {
   render() {
-    const { data, onClick, onConditionsClick, onPriceBreakdownClick } = this.props;
+    const { className, data, onClick, onConditionsClick, onPriceBreakdownClick } = this.props;
 
     return (
-      <Block onClick={onClick}>
+      <Block className={className} onClick={onClick}>
         <div className="TicketResult">
           <div className="TicketResult-top">
             <div className="TicketResult-top-content">
@@ -23,16 +23,16 @@ export default class TicketResult extends React.Component {
               </div>
               <div className="TicketResult-header">
                 <div className="TicketResult-title">
-                  {data.name}
+                  {data.title}
                 </div>
                 <div className="TicketResult-price">
                   {formatPrice(data.price)}
                 </div>
               </div>
               <div className="TicketResult-sub">
-                {false && <div className="TicketResult-note">
-                  Only 4 available
-                </div>}
+                <div className="TicketResult-note">
+                  {data.descriptionLines.map(line => <div className="TicketResult-note-line">{line}</div>)}
+                </div>
                 {data.isDiscounted && <Badge discounted text="Discounted" />}
               </div>
             </div>

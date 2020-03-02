@@ -16,7 +16,10 @@ import LargeChevron from '../data/icon/large-chevron';
 import './Results.css';
 import { formatPrice } from '../utility/format';
 
-const getCheapestTicketPrice = tickets => Math.min(...tickets.map(ticket => ticket.price));
+const getCheapestTicketPrice = tickets => {
+  const cheapest = Math.min(...tickets.map(ticket => ticket.price));
+  return cheapest === Infinity ? null : cheapest;
+};
 
 const addDataToServices = services => {
   services.forEach(service => {
@@ -37,9 +40,9 @@ const addDataToServices = services => {
 }
 
 const addQualifiers = services => {
-  const cheapestServicePrice = Math.min(...services.map(service => Math.min(service.price.standard, service.price.first)));
-  const fastestServiceTime = Math.min(...services.map(service => service.time.duration));
-  
+  let cheapestServicePrice = Math.min(...services.map(service => Math.min(service.price.standard, service.price.first)));
+  let fastestServiceTime = Math.min(...services.map(service => service.time.duration));
+
   services.forEach(service => {
     service.isCheapest = service.price.standard === cheapestServicePrice || service.price.first === cheapestServicePrice;
     service.isFastest = service.time.duration === fastestServiceTime;

@@ -6,7 +6,18 @@ import './StationPicker.css';
 
 const options = stations
   .filter(station => station.name && station.crs)
-  .filter(station => station.name.toLowerCase().includes('london') || station.name.toLowerCase().includes('edinburgh') || station.name.toLowerCase().includes('peterborough') || station.name === 'Leeds' || station.name === 'Harrogate' || station.name === 'York')
+  .filter(station => station.name.toLowerCase().includes('london') || station.name.toLowerCase().includes('cambridge') || station.name.toLowerCase().includes('edinburgh') || station.name.toLowerCase().includes('peterborough') || station.name === 'Leeds' || station.name === 'Harrogate' || station.name === 'York')
+  .map(station => {
+    if (station.id === 2317) {
+      // Edinburgh Waverley
+      // Sadly can't use aliases (e.g. London King's Cross King's Cross)
+      return {
+        ...station,
+        name: 'Edinburgh Waverley',
+      };
+    }
+    return station;
+  })
   .map(station => ({
     key: station.id,
     value: station.id,
